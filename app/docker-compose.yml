@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  react-app:
+    build:
+      context: ./docker/react-app
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./my-react-app:/app  # Ensure this is the correct path to your React app's source code
+    environment:
+      - NODE_ENV=production
+
+  python-app:
+    build:
+      context: ./flask_app  # This should be the path to your flask_app directory
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./flask_app:/usr/src/flaskapi
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_RUN_HOST=0.0.0.0
+
+  postgres:
+    image: postgres:14
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: database
+      POSTGRES_USER: oackland
+      POSTGRES_PASSWORD: Torosanabria06
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
+  # This named volume will persist the PostgreSQL database data
