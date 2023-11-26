@@ -1,31 +1,10 @@
 version: '3.8'
 
 services:
-  react-app:
-    build:
-      context: ./docker/react-app
-      dockerfile: Dockerfile
-    ports:
-      - "5173:5173"
-    volumes:
-      - ./my-react-app:/app  # Ensure this is the correct path to your React app's source code
-    environment:
-      - NODE_ENV=production
-
-  python-app:
-    build:
-      context: ./flask_app  # This should be the path to your flask_app directory
-      dockerfile: Dockerfile
-    ports:
-      - "5000:5000"
-    volumes:
-      - ./flask_app:/usr/src/flaskapi
-    environment:
-      - FLASK_APP=app.py
-      - FLASK_RUN_HOST=0.0.0.0
-
   postgres:
     image: postgres:14
+    restart: always
+    container_name: postgres
     ports:
       - "5432:5432"
     environment:
@@ -35,6 +14,39 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
+  python-app:
+    build:
+      context: ./flask_app
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./flask_app:/usr/src/app  # For development, to enable live-reload
+    environment:
+      - FLASK_ENV=development
+      - FLASK_APP=app.py
+      - FLASK_RUN_HOST=0.0.0.0
+      - POSTGRES_USER=oackland
+      - POSTGRES_PASSWORD=Torosanabria06
+      - POSTGRES_DB=database
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+    depends_on:
+      - postgres
+
+  react-app:
+    build:
+      context: ./my-react-app
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000" # Make sure this matches the port exposed in your Dockerfile
+    volumes:
+      - ./my-react-app:/usr/src/app # Mount the source code for live reloading
+      - /usr/src/app/node_modules # Use a volume for node_modules to prevent overwriting
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - python-app
 volumes:
   postgres-data:
   # This named volume will persist the PostgreSQL database data
