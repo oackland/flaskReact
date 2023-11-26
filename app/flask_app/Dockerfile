@@ -9,7 +9,7 @@ RUN pip install --upgrade pip && \
 
 COPY . .
 
-COPY entrypoint.sh .
+#COPY entrypoint.sh .
 
 EXPOSE 5000
 

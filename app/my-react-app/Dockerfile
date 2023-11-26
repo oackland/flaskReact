@@ -5,7 +5,7 @@ FROM node:latest
 WORKDIR /usr/src/app
 
 # Step 3: Copy package.json and package-lock.json (or yarn.lock if using Yarn)
-COPY package*.json .
+COPY package*.json ./
 
 # Step 4: Install dependencies
 # This will install both production and development dependencies
