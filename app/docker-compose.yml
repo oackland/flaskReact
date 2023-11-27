@@ -16,8 +16,10 @@ services:
 
   python-app:
     build:
+
       context: ./flask_app
       dockerfile: Dockerfile
+
     ports:
       - "5000:5000"
     volumes:
@@ -31,6 +33,9 @@ services:
       - POSTGRES_DB=database
       - POSTGRES_HOST=postgres
       - POSTGRES_PORT=5432
+    stdin_open: true
+    tty: true
+    container_name: python-app
     depends_on:
       - postgres
 

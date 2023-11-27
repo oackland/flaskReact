@@ -15,6 +15,10 @@ class Config(object):
     POSTGRES_HOST = env.str("POSTGRES_HOST")
     # Add more common configurations as needed
 
+    @property
+    def SQLALCHEMY_DATABASE_URI(self):
+        return f"postgresql://{self.POSTGRES_USER}:{self.POSTGRES_PASSWORD}@{self.POSTGRES_HOST}:{self.POSTGRES_PORT}/{self.POSTGRES_DB}"
+
 
 class DevelopmentConfig(Config):
     """Development configurations."""

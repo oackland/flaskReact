@@ -14,7 +14,12 @@ EXPOSE 5000
 # Set environment variables
 # FLASK_APP should point to the Python file that creates your app instance
 # FLASK_RUN_HOST is set to 0.0.0.0 to make the server externally visible
-ENV FLASK_APP=app.py \
-    FLASK_RUN_HOST=0.0.0.0
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["flask", "run"]
+
+#ENV FLASK_APP=app.py \
+#    FLASK_RUN_HOST=0.0.0.0
+
+#CMD ["flask", "run"]

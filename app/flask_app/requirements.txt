@@ -1,3 +1,5 @@
 flask
 python-dotenv
 environs
+psycopg2-binary
+Flask-SQLAlchemy
