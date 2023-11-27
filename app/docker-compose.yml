@@ -21,7 +21,7 @@ services:
     ports:
       - "5000:5000"
     volumes:
-      - ./flask_app:/usr/src/app  # For development, to enable live-reload
+      - ./flask_app:/app  # For development, to enable live-reload
     environment:
       - FLASK_ENV=development
       - FLASK_APP=app.py

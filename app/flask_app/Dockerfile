@@ -9,12 +9,12 @@ RUN pip install --upgrade pip && \
 
 COPY . .
 
-#COPY entrypoint.sh .
-
 EXPOSE 5000
 
-
-
-VOLUME [ "/app" ]
+# Set environment variables
+# FLASK_APP should point to the Python file that creates your app instance
+# FLASK_RUN_HOST is set to 0.0.0.0 to make the server externally visible
+ENV FLASK_APP=app.py \
+    FLASK_RUN_HOST=0.0.0.0
 
 CMD ["flask", "run"]
